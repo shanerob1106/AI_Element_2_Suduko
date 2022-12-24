@@ -1,10 +1,9 @@
-# AI_Element_2_Suduko
-SudokuGenerator
+# Solving a Suduko Puzzle using DFS
+## Teesside University - Artificial Intelligence
 
-Creates a unique Suduko Puzzle that the user has the choice of solving on their own or by using DFS
-to solve the puzzle with the total steps taken to complete the puzzle. 
+Creates a **unique Suduko Puzzle** that can be completed by using a _Uniformed Search_ called **Depth-First Search**, The user can generate a single puzzle that is completed by **_DFS_** or they can enter a total amount of games they want the **AI** to solve and store data based on the total steps taken per each instance of the game. 
 
-Inclues plain text file to track total steps taken for each of the runs. 'DFS_Performance_Data.csv' & 'NTS_Performance_Data.csv'
-Planning on adding a method to run multiple and collect a range of run data find averages, highs and lows to compare against NTS v DFS
-
-Planning on adding 'Naked Twin Stratergy' to complete puzzle...
+Includes **.CSV** text file to track total steps taken for each of the runs, 
+titled: _'DFS_Performance_Data.csv'_
+Exmaples of the .CSV can be seen below:
+  
