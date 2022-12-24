@@ -1,5 +1,8 @@
 from random import shuffle
 import copy
+from csv import DictWriter
+
+
 """
 SudokuGenerator
 
@@ -9,13 +12,11 @@ to solve the puzzle with the total steps taken to complete the puzzle.
 Planning on adding Reinforcment to complete puzzle...
 """
 
-
-
-class SudokuGenerator:
+class SudokuUsingDFS:
 	"""Generates and solves Sudoku puzzles using a depth-first search (DFS) algorithm"""
 	def __init__(self,grid=None):
-		self.Steps = 0
 		self.counter = 0
+		self.type = "DFS"
 		## Path is for the matplotlib animation
 		self.path = []
 		## If a grid/puzzle is passed in, make a copy and solve it
@@ -31,7 +32,6 @@ class SudokuGenerator:
 			self.grid = [[0 for i in range(9)] for j in range(9)]
 			self.generate_puzzle()
 			self.original = copy.deepcopy(self.grid)
-		
 		
 	def solve_input_sudoku(self):
 		"""Solves a puzzle"""
@@ -121,7 +121,10 @@ class SudokuGenerator:
 					if self.valid_location(grid,row,col,number):
 						grid[row][col]=number
 						self.Steps += 1
-						print("Steps: ", self.Steps)
+
+						## Uncomment line below see how many steps
+						## print("Steps: ", self.Steps) ##
+
 						if not self.find_empty_square(grid):
 							self.counter+=1
 							break
@@ -133,6 +136,7 @@ class SudokuGenerator:
 		return False
 
 	def generate_solution(self, grid):
+		self.Steps = 0
 		"""Generates a full solution with depth-first search (DFS)"""
 		number_list = [1,2,3,4,5,6,7,8,9]
 		for i in range(0,81):
@@ -190,28 +194,63 @@ class SudokuGenerator:
 				rounds -=1			
 		return
 
-newPuzzle = int(input("Would you like a Suduko puzzle? 1: Yes\t2: No\nChoice: "))
+def CompleteDFS():
+	"""Completes a game of Sudoku using DFS to solve"""
+	new_puzzle = SudokuUsingDFS()
+	solved = SudokuUsingDFS(grid = new_puzzle.grid)
+	print("\nCompleted puzzle after depth-first search (DFS) algorithm")
+	for row in solved.grid:
+		print(row)
+
+def saveData():
+	"""Saves the total games and steps per game based on user input"""
+	counter = 0
+	field_names = ['ID', 'TYPE', 'STEPS']
+	amount = int(input("Enter the total games to be played: "))
+
+	while counter != amount:
+		new_puzzle = SudokuUsingDFS()
+		solved = SudokuUsingDFS(grid = new_puzzle.grid)
+		print("\nCompleted puzzle after depth-first search (DFS) algorithm Example: ", counter)
+		for row in solved.grid:
+			print(row)
+		counter += 1
+
+		dict = {'ID' : counter, 'TYPE' : new_puzzle.type, 'STEPS' : new_puzzle.Steps}
+		end = {'ID' : "NULL", 'TYPE' : 'END', 'STEPS' : 0 }
+		with open('DFS_Performance_Data.csv', 'a') as f_object:
+			DictWriter_object = DictWriter(f_object, fieldnames=field_names)
+			DictWriter_object.writerow(dict)
+			f_object.close()
+
+"""Simple menu options for user to choose either complete using DFS or NTS or collect data"""
+newPuzzle = int(input("Would you like a Suduko puzzle? 1: DFS \t2: Collect Data\nChoice: "))
 if(newPuzzle) == 1:
-    complete = int(input("Would you like to use depth-first search (DFS) algorithm to complete the puzzle? 1: Yes\tNo: 2\nChoice: "))
-
-    if(complete) == 1:
-        ## Solving a new puzzle
-        new_puzzle = SudokuGenerator()
-        solved = SudokuGenerator(grid = new_puzzle.grid)
-        print("\nCompleted puzzle after depth-first search (DFS) algorithm")
-        for row in solved.grid:
-            print(row)
-
-    elif(complete) == 2:
-        new_puzzle = SudokuGenerator()
-        print("\nIncomplete Solution - depth-first search (DFS) algorithm was not applied...")
-        for row in new_puzzle.grid:
-            print(row)
-        print("\nYou choose not to complete the puzzle... \n")
-    else:
-        print("\nThe puzzle was not completed... \n ")
+	CompleteDFS()
 
 elif(newPuzzle) == 2:
-    print("\nNo puzzle was created... \n")
-else: 
-    print("\nInvalid choice... \n")
+	saveData()
+
+else:
+	print("\nInvalid choice... \n")
+	print(newPuzzle)
+
+
+# -= NOTES/CHALLENGES =- #
+#
+# 	NEED TO DO:		DONE = D	NOT COMPLETED = N		INPROGRESS = P
+#
+# 		Clean up selection area (more functions)	D
+#			- Added a option to collect data 		D
+#			- Add option to collect NTS data 		N
+#			- Removed uncessary lines				D
+#
+# 		Implement new algorithm into my program (more efficient than DFS)		P
+# 			- Research Naked Twin Stargery										D
+#			- Other options? 													N
+#
+# 		Create def function for .csv to save data		D
+#			- Saves basic data to .csv to review 		D
+#			- Save data for DFS 						D
+#
+# -= END OF NOTES =- #
