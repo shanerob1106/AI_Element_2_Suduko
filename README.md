@@ -6,4 +6,16 @@ Creates a **unique Suduko Puzzle** that can be completed by using a _Uniformed S
 Includes **.CSV** text file to track total steps taken for each of the runs, 
 titled: _'DFS_Performance_Data.csv'_
 Exmaples of the .CSV can be seen below:
-  
+
+ID, TYPE, STEPS (Using comma delimeter ',')
+
+1,DFS,2137</br>
+2,DFS,12989</br>
+3,DFS,76312</br>
+4,DFS,140778</br>
+5,DFS,1789</br>
+6,DFS,4941</br>
+7,DFS,5525</br>
+8,DFS,1302</br>
+9,DFS,20071</br>
+10,DFS,1516</br>
